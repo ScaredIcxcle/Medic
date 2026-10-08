@@ -82,6 +82,7 @@ Final answer printed to terminal
 ## Known limitations
 
 - Classification quality depends entirely on the vision model's judgment; it was tuned via prompt wording to treat unpaid invoices/bills as valid "receipts" (matching what the amount detector can actually extract), but edge cases in wording may still be misclassified.
+- Amounts across multiple receipts are summed, not itemized. If a person has several receipts, the agent reports combined totals (e.g. total due across all receipts) rather than a per-receipt breakdown. A question like "which receipt still has a balance" or "is receipt #2 paid off" isn't answerable with the current aggregation — only the combined figure is.
 - Free-tier rate limits (Groq: ~7000 ITPM; detector's own Groq usage: ~1 call per 20s) mean processing many receipts for one person can be slow due to retry/fallback waits.
 - No deduplication of receipts (e.g. if the same invoice appears in both email and WhatsApp, it will be counted twice in the aggregated total).
 - WhatsApp and email retrieval is purely folder-based (simulated); no real API integration.
